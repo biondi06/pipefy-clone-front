@@ -2,20 +2,23 @@ import React, { useState } from 'react';
 import { Container, TextField, Button, Typography } from '@mui/material';
 import api from '../api/axios';
 import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
 function AddTask() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     api.post('/tasks', { title, description })
       .then(() => {
-        navigate('/tasks');  // Redireciona de volta para a página de tarefas
+        enqueueSnackbar('Tarefa adicionada com sucesso', { variant: 'success' });
+        navigate('/tasks');
       })
       .catch(error => {
-        console.error('Erro ao adicionar tarefa:', error);
+        enqueueSnackbar('Erro ao adicionar tarefa', { variant: 'error' });
       });
   };
 
