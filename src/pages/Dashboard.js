@@ -1,34 +1,33 @@
-import React from 'react';
-import { Container, Grid, Card, CardContent, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Container, Typography, Grid, Card, CardContent } from '@mui/material';
+import axios from 'axios';
 
 function Dashboard() {
+  const [image, setImage] = useState('');
+
+  useEffect(() => {
+    axios.get('https://api.unsplash.com/photos/random', {
+      params: { query: 'office', client_id: 'YOUR_UNSPLASH_ACCESS_KEY' },
+    })
+      .then(response => {
+        setImage(response.data.urls.regular);
+      })
+      .catch(error => {
+        console.error('Erro ao buscar imagem:', error);
+      });
+  }, []);
+
   return (
     <Container maxWidth="lg">
       <Typography variant="h4" gutterBottom>
         Dashboard
       </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={12}>
           <Card>
             <CardContent>
-              <Typography variant="h5">Tarefas</Typography>
-              <Typography>Gerencie suas tarefas aqui.</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <Card>
-            <CardContent>
-              <Typography variant="h5">Equipes</Typography>
-              <Typography>Gerencie as equipes da sua organização.</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <Card>
-            <CardContent>
-              <Typography variant="h5">Automação</Typography>
-              <Typography>Automatize seus processos de trabalho.</Typography>
+              <Typography variant="h5">Bem-vindo ao Sistema</Typography>
+              <img src={image} alt="Office" style={{ width: '100%', height: 'auto' }} />
             </CardContent>
           </Card>
         </Grid>

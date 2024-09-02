@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, List, ListItem, ListItemText, Button, CircularProgress } from '@mui/material';
+import io from 'socket.io-client';
 import api from '../api/axios';
+
+const socket = io('http://localhost:3000');
 
 function Tasks() {
   const [tasks, setTasks] = useState([]);
@@ -16,6 +19,14 @@ function Tasks() {
         console.error('Erro ao buscar tarefas:', error);
         setLoading(false);
       });
+
+    socket.on('taskCreated', (task) => {
+      setTasks((prevTasks) => [...prevTasks, task]);
+    });
+
+    return () => {
+      socket.off('taskCreated');
+    };
   }, []);
 
   return (
