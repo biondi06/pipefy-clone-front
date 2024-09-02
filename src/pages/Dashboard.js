@@ -1,31 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import API from '../api';  // Certifique-se de que este caminho está correto
+import React from 'react';
+import { Container, Grid, Card, CardContent, Typography } from '@mui/material';
 
 function Dashboard() {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    // Faz uma requisição GET para obter a lista de usuários
-    API.get('/users')
-      .then(response => {
-        setUsers(response.data);  // Atualiza o estado com os usuários recebidos
-      })
-      .catch(error => {
-        console.error('Error fetching users:', error);
-      });
-  }, []);
-
   return (
-    <div>
-      <h1>Users List</h1>
-      <ul>
-        {users.map(user => (
-          <li key={user.id}>
-            {user.username} - {user.email}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Container maxWidth="lg">
+      <Typography variant="h4" gutterBottom>
+        Dashboard
+      </Typography>
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={6} md={4}>
+          <Card>
+            <CardContent>
+              <Typography variant="h5">Tarefas</Typography>
+              <Typography>Gerencie suas tarefas aqui.</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <Card>
+            <CardContent>
+              <Typography variant="h5">Equipes</Typography>
+              <Typography>Gerencie as equipes da sua organização.</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <Card>
+            <CardContent>
+              <Typography variant="h5">Automação</Typography>
+              <Typography>Automatize seus processos de trabalho.</Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Container>
   );
 }
 
