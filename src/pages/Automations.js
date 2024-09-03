@@ -1,104 +1,85 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Typography, Grid, Card, CardContent, Button, TextField, Chip } from '@mui/material';
-import api from '../api/axios';
+import React, { useState, useEffect } from 'react';
+import { Container, Grid, Paper, Typography, TextField, Button, List, ListItem, ListItemText } from '@mui/material';
+import axios from 'axios';
 
 function Automations() {
+  const [automationName, setAutomationName] = useState('');
+  const [trigger, setTrigger] = useState('');
+  const [action, setAction] = useState('');
   const [automations, setAutomations] = useState([]);
-  const [name, setName] = useState('');
-  const [triggers, setTriggers] = useState([]);
-  const [actions, setActions] = useState([]);
-  const [inputTrigger, setInputTrigger] = useState('');
-  const [inputAction, setInputAction] = useState('');
 
   useEffect(() => {
-    api.get('/automations')
-      .then(response => {
-        setAutomations(response.data);
-      })
-      .catch(error => {
-        console.error('Erro ao buscar automações:', error);
-      });
+    // Fetch existing automations from the backend
+    axios.get('/api/automations')
+      .then(response => setAutomations(response.data))
+      .catch(error => console.error('Erro ao buscar automações:', error));
   }, []);
 
-  const handleAddTrigger = () => {
-    setTriggers([...triggers, inputTrigger]);
-    setInputTrigger('');
-  };
-
-  const handleAddAction = () => {
-    setActions([...actions, inputAction]);
-    setInputAction('');
-  };
-
-  const handleSubmit = () => {
-    api.post('/automations', { name, triggers, actions })
+  const handleCreateAutomation = () => {
+    const newAutomation = { automationName, trigger, action };
+    axios.post('/api/automations', newAutomation)
       .then(response => {
         setAutomations([...automations, response.data]);
-        setName('');
-        setTriggers([]);
-        setActions([]);
+        setAutomationName('');
+        setTrigger('');
+        setAction('');
       })
-      .catch(error => {
-        console.error('Erro ao criar automação:', error);
-      });
+      .catch(error => console.error('Erro ao criar automação:', error));
   };
 
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="md" style={{ marginTop: '50px' }}>
       <Typography variant="h4" gutterBottom>
-        Configuração de Automação
+        Gerenciamento de Automação
       </Typography>
-      <Grid container spacing={3}>
-        {automations.map(automation => (
-          <Grid item xs={12} sm={6} md={4} key={automation.id}>
-            <Card>
-              <CardContent>
-                <Typography variant="h5">{automation.name}</Typography>
-                <Typography>Triggers: {automation.triggers.join(', ')}</Typography>
-                <Typography>Ações: {automation.actions.join(', ')}</Typography>
-              </CardContent>
-            </Card>
+      <Paper style={{ padding: '20px' }}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <TextField
+              label="Nome da Automação"
+              value={automationName}
+              onChange={(e) => setAutomationName(e.target.value)}
+              fullWidth
+            />
           </Grid>
-        ))}
-      </Grid>
-
-      <Typography variant="h5" gutterBottom style={{ marginTop: '20px' }}>
-        Criar Nova Automação
-      </Typography>
-      <TextField
-        label="Nome da Automação"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        label="Adicionar Gatilho"
-        value={inputTrigger}
-        onChange={(e) => setInputTrigger(e.target.value)}
-        fullWidth
-        margin="normal"
-      />
-      <Button onClick={handleAddTrigger} variant="contained" color="primary">Adicionar Gatilho</Button>
-      {triggers.map((trigger, index) => (
-        <Chip key={index} label={trigger} style={{ margin: '5px' }} />
-      ))}
-
-      <TextField
-        label="Adicionar Ação"
-        value={inputAction}
-        onChange={(e) => setInputAction(e.target.value)}
-        fullWidth
-        margin="normal"
-      />
-      <Button onClick={handleAddAction} variant="contained" color="primary">Adicionar Ação</Button>
-      {actions.map((action, index) => (
-        <Chip key={index} label={action} style={{ margin: '5px' }} />
-      ))}
-
-      <Button onClick={handleSubmit} variant="contained" color="primary" style={{ marginTop: '20px' }}>
-        Criar Automação
-      </Button>
+          <Grid item xs={12}>
+            <TextField
+              label="Gatilho"
+              value={trigger}
+              onChange={(e) => setTrigger(e.target.value)}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Ação"
+              value={action}
+              onChange={(e) => setAction(e.target.value)}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              onClick={handleCreateAutomation}
+              fullWidth
+            >
+              Criar Automação
+            </Button>
+          </Grid>
+        </Grid>
+        <Typography variant="h6" style={{ marginTop: '20px' }}>
+          Automations Existentes
+        </Typography>
+        <List>
+          {automations.map(auto => (
+            <ListItem key={auto.id}>
+              <ListItemText primary={auto.automationName} secondary={`Gatilho: ${auto.trigger} - Ação: ${auto.action}`} />
+            </ListItem>
+          ))}
+        </List>
+      </Paper>
     </Container>
   );
 }

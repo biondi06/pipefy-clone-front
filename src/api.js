@@ -1,7 +1,15 @@
 import axios from 'axios';
 
-const API = axios.create({
-  baseURL: 'http://localhost:3000/api', // URL base para o backend
+const api = axios.create({
+  baseURL: 'http://localhost:3000/api', // Ajuste para o URL correto do backend
 });
 
-export default API;
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export default api;

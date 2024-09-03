@@ -1,34 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Container, TextField, Button, Typography } from '@mui/material';
-import api from '../api/axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Button, TextField, Container, Typography } from '@mui/material';
+import { useParams, useNavigate } from 'react-router-dom';
+import api from '../api';
 
 function EditTask() {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
   const { id } = useParams();
   const navigate = useNavigate();
+  const [task, setTask] = useState({ title: '', description: '' });
 
   useEffect(() => {
-    api.get(`/tasks/${id}`)
-      .then(response => {
-        setTitle(response.data.title);
-        setDescription(response.data.description);
-      })
-      .catch(error => {
-        console.error('Erro ao buscar tarefa:', error);
-      });
+    api.get(`/tasks/${id}`).then((response) => {
+      setTask(response.data);
+    });
   }, [id]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    api.put(`/tasks/${id}`, { title, description })
-      .then(() => {
-        navigate('/tasks');  // Redireciona de volta para a página de tarefas
-      })
-      .catch(error => {
-        console.error('Erro ao editar tarefa:', error);
-      });
+    try {
+      await api.put(`/tasks/${id}`, task);
+      navigate('/tasks');
+    } catch (error) {
+      console.error('Erro ao editar tarefa:', error);
+    }
   };
 
   return (
@@ -40,17 +33,19 @@ function EditTask() {
         <TextField
           label="Título"
           fullWidth
+          value={task.title}
+          onChange={(e) => setTask({ ...task, title: e.target.value })}
           margin="normal"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
           required
         />
         <TextField
           label="Descrição"
           fullWidth
+          value={task.description}
+          onChange={(e) => setTask({ ...task, description: e.target.value })}
           margin="normal"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          multiline
+          rows={4}
           required
         />
         <Button type="submit" variant="contained" color="primary">

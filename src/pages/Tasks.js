@@ -1,49 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Typography, List, ListItem, ListItemText, Button, CircularProgress } from '@mui/material';
-import io from 'socket.io-client';
-import api from '../api/axios';
-
-const socket = io('http://localhost:3000');
+import React, { useState, useEffect } from 'react';
+import { Container, Grid, Paper, Typography, Button, List, ListItem, ListItemText } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Tasks() {
   const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    api.get('/tasks')
-      .then(response => {
-        setTasks(response.data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Erro ao buscar tarefas:', error);
-        setLoading(false);
-      });
-
-    socket.on('taskCreated', (task) => {
-      setTasks((prevTasks) => [...prevTasks, task]);
-    });
-
-    return () => {
-      socket.off('taskCreated');
-    };
+    // Fetch tasks from the backend
+    axios.get('/api/tasks')
+      .then(response => setTasks(response.data))
+      .catch(error => console.error('Erro ao buscar tarefas:', error));
   }, []);
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="lg" style={{ marginTop: '50px' }}>
       <Typography variant="h4" gutterBottom>
         Gerenciamento de Tarefas
       </Typography>
-      {loading ? <CircularProgress /> : (
-        <List>
-          {tasks.map(task => (
-            <ListItem key={task.id}>
-              <ListItemText primary={task.title} secondary={task.description} />
-            </ListItem>
-          ))}
-        </List>
-      )}
-      <Button variant="contained" color="primary" href="/tasks/add">Adicionar Nova Tarefa</Button>
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Paper style={{ padding: '20px' }}>
+            <Typography variant="h6" gutterBottom>
+              Lista de Tarefas
+            </Typography>
+            <List>
+              {tasks.map(task => (
+                <ListItem key={task.id} button onClick={() => navigate(`/task-details/${task.id}`)}>
+                  <ListItemText primary={task.title} secondary={task.status} />
+                </ListItem>
+              ))}
+            </List>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              onClick={() => navigate('/add-task')} 
+              style={{ marginTop: '20px' }}
+            >
+              Adicionar Nova Tarefa
+            </Button>
+          </Paper>
+        </Grid>
+      </Grid>
     </Container>
   );
 }
