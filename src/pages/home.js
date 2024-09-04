@@ -1,96 +1,113 @@
 import React from 'react';
-import { Button, Container, Grid, Typography } from '@mui/material';
+import { Container, Typography, Button, Grid, Paper, IconButton } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
 
 function Home() {
   const navigate = useNavigate();
 
   return (
-    <Container maxWidth="md" style={{ textAlign: 'center', marginTop: '100px' }}>
-      <Typography variant="h3" gutterBottom>
-        Bem-vindo ao Sistema - Thomaz Alves Advogados
+    <Container maxWidth="lg" style={{ marginTop: '80px', textAlign: 'center' }}>
+      {/* Ícone de casa no canto superior esquerdo */}
+      <IconButton
+        style={{ position: 'absolute', top: '20px', left: '20px' }}
+        color="primary"
+        onClick={() => navigate('/')}
+      >
+        <HomeIcon fontSize="large" />
+      </IconButton>
+
+      <Typography variant="h2" gutterBottom style={{ fontWeight: 'bold', color: '#041b33' }}>
+        Sistema de Gerenciamento - Thomaz Alves Advogados
       </Typography>
-      <Typography variant="h6" gutterBottom>
-        Gerenciamento de Tarefas e Automação
+      <Typography variant="h5" gutterBottom style={{ marginBottom: '50px', color: '#6c757d' }}>
+        Escolha uma funcionalidade para começar
       </Typography>
-      
-      <Grid container spacing={3} justifyContent="center" style={{ marginTop: '50px' }}>
+
+      <Grid container spacing={4} justifyContent="center">
         <Grid item xs={12} sm={6} md={4}>
-          <Button 
-            variant="contained" 
-            color="primary" 
-            fullWidth 
-            onClick={() => navigate('/dashboard')} 
-            style={{ padding: '15px', borderRadius: '8px' }}
-          >
-            Dashboard
-          </Button>
+          <Paper elevation={6} style={{ padding: '30px', transition: 'transform 0.3s ease' }}>
+            <Typography variant="h5" gutterBottom>
+              Dashboard
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              style={{ padding: '15px', fontSize: '18px' }}
+              onClick={() => navigate('/dashboard')}
+            >
+              Acessar Dashboard
+            </Button>
+          </Paper>
         </Grid>
+
         <Grid item xs={12} sm={6} md={4}>
-          <Button 
-            variant="contained" 
-            color="primary" 
-            fullWidth 
-            onClick={() => navigate('/tasks')} 
-            style={{ padding: '15px', borderRadius: '8px' }}
-          >
-            Gerenciar Tarefas
-          </Button>
+          <Paper elevation={6} style={{ padding: '30px', transition: 'transform 0.3s ease' }}>
+            <Typography variant="h5" gutterBottom>
+              Tarefas
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              style={{ padding: '15px', fontSize: '18px' }}
+              onClick={() => navigate('/tasks')}
+            >
+              Gerenciar Tarefas
+            </Button>
+          </Paper>
         </Grid>
+
         <Grid item xs={12} sm={6} md={4}>
-          <Button 
-            variant="contained" 
-            color="primary" 
-            fullWidth 
-            onClick={() => navigate('/add-task')} 
-            style={{ padding: '15px', borderRadius: '8px' }}
-          >
-            Adicionar Nova Tarefa
-          </Button>
+          <Paper elevation={6} style={{ padding: '30px', transition: 'transform 0.3s ease' }}>
+            <Typography variant="h5" gutterBottom>
+              Formulários
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              style={{ padding: '15px', fontSize: '18px' }}
+              onClick={() => navigate('/forms')}
+            >
+              Criar Formulários
+            </Button>
+          </Paper>
         </Grid>
+
         <Grid item xs={12} sm={6} md={4}>
-          <Button 
-            variant="contained" 
-            color="primary" 
-            fullWidth 
-            onClick={() => navigate('/automations')} 
-            style={{ padding: '15px', borderRadius: '8px' }}
-          >
-            Automação
-          </Button>
+          <Paper elevation={6} style={{ padding: '30px', transition: 'transform 0.3s ease' }}>
+            <Typography variant="h5" gutterBottom>
+              Relatórios
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              style={{ padding: '15px', fontSize: '18px' }}
+              onClick={() => navigate('/report')}
+            >
+              Visualizar Relatórios
+            </Button>
+          </Paper>
         </Grid>
+
         <Grid item xs={12} sm={6} md={4}>
-          <Button 
-            variant="contained" 
-            color="primary" 
-            fullWidth 
-            onClick={() => navigate('/forms')} 
-            style={{ padding: '15px', borderRadius: '8px' }}
-          >
-            Formulários
-          </Button>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <Button 
-            variant="contained" 
-            color="primary" 
-            fullWidth 
-            onClick={() => navigate('/report')} 
-            style={{ padding: '15px', borderRadius: '8px' }}
-          >
-            Relatórios
-          </Button>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <Button 
-            variant="contained" 
-            color="primary" 
-            fullWidth 
-            onClick={() => navigate('/teams')} 
-            style={{ padding: '15px', borderRadius: '8px' }}
-          >
-            Equipes
-          </Button>
+          <Paper elevation={6} style={{ padding: '30px', transition: 'transform 0.3s ease' }}>
+            <Typography variant="h5" gutterBottom>
+              Equipes
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              style={{ padding: '15px', fontSize: '18px' }}
+              onClick={() => navigate('/teams')}
+            >
+              Gerenciar Equipes
+            </Button>
+          </Paper>
         </Grid>
       </Grid>
     </Container>

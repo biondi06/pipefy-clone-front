@@ -1,14 +1,38 @@
-.fade-enter {
-  opacity: 0;
+/* Animação de hover e elevação nos botões e blocos */
+.Paper-root {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.fade-enter-active {
-  opacity: 1;
-  transition: opacity 300ms;
+
+.Paper-root:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
 }
-.fade-exit {
-  opacity: 1;
+
+/* Estilos para o botão interativo */
+.MuiButton-root {
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
-.fade-exit-active {
-  opacity: 0;
-  transition: opacity 300ms;
+
+.MuiButton-root:hover {
+  background-color: #1a73e8;
+  transform: translateY(-3px);
+}
+
+/* Tornar o layout totalmente responsivo */
+@media (max-width: 768px) {
+  .MuiContainer-root {
+    padding: 10px;
+  }
+
+  .MuiTypography-h2 {
+    font-size: 28px;
+  }
+s
+  .MuiTypography-h5 {
+    font-size: 18px;
+  }
+
+  .MuiPaper-root {
+    margin-bottom: 20px;
+  }
 }

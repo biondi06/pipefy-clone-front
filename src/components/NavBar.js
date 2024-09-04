@@ -1,22 +1,44 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';  // Ícone de casa
 
-function NavBar() {
+const NavBar = () => {
   return (
-    <AppBar position="static" color="primary">
+    <AppBar position="fixed" color="primary"> {/* O rodapé superior fixo */}
       <Toolbar>
+        {/* Botão Home visível e sempre no canto esquerdo */}
+        <IconButton
+          edge="start"
+          color="inherit"
+          component={Link}
+          to="/"
+          aria-label="home"
+        >
+          <HomeIcon /> {/* Ícone de Casa */}
+        </IconButton>
+        
+        {/* Nome do Sistema */}
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           Sistema - Thomaz Alves Advogados
         </Typography>
-        <Button color="inherit" component={Link} to="/">Dashboard</Button>
-        <Button color="inherit" component={Link} to="/tasks">Tarefas</Button>
-        <Button color="inherit" component={Link} to="/teams">Equipes</Button>
-        <Button color="inherit" component={Link} to="/automations">Automação</Button>
-        <Button color="inherit" component={Link} to="/forms">Formulários</Button>
+
+        {/* Links para outras páginas */}
+        <Button color="inherit" component={Link} to="/dashboard">
+          Dashboard
+        </Button>
+        <Button color="inherit" component={Link} to="/tasks">
+          Tarefas
+        </Button>
+        <Button color="inherit" component={Link} to="/add-task">
+          Adicionar Tarefa
+        </Button>
+        <Button color="inherit" component={Link} to="/kanban">
+          Kanban
+        </Button>
       </Toolbar>
     </AppBar>
   );
-}
+};
 
 export default NavBar;

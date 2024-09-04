@@ -1,95 +1,68 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Grid, Paper, Typography, TextField, Button, List, ListItem, ListItemText } from '@mui/material';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { Container, Typography, TextField, Button } from '@mui/material';
 
 function Forms() {
-  const [formName, setFormName] = useState('');
-  const [formFields, setFormFields] = useState([{ label: '', type: 'text' }]);
-  const [forms, setForms] = useState([]);
-
-  useEffect(() => {
-    // Fetch existing forms from the backend
-    axios.get('/api/forms')
-      .then(response => setForms(response.data))
-      .catch(error => console.error('Erro ao buscar formulários:', error));
-  }, []);
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    fields: []
+  });
 
   const handleAddField = () => {
-    setFormFields([...formFields, { label: '', type: 'text' }]);
+    setFormData({
+      ...formData,
+      fields: [...formData.fields, { name: '', type: 'text' }]
+    });
   };
 
-  const handleCreateForm = () => {
-    const newForm = { formName, formFields };
-    axios.post('/api/forms', newForm)
-      .then(response => {
-        setForms([...forms, response.data]);
-        setFormName('');
-        setFormFields([{ label: '', type: 'text' }]);
-      })
-      .catch(error => console.error('Erro ao criar formulário:', error));
+  const handleFieldChange = (index, event) => {
+    const updatedFields = formData.fields.map((field, i) => 
+      i === index ? { ...field, [event.target.name]: event.target.value } : field
+    );
+    setFormData({ ...formData, fields: updatedFields });
+  };
+
+  const handleSubmit = () => {
+    console.log('Formulário Criado:', formData);
+    // Aqui você integraria a API para salvar o formulário
   };
 
   return (
     <Container maxWidth="md" style={{ marginTop: '50px' }}>
       <Typography variant="h4" gutterBottom>
-        Gerenciamento de Formulários
+        Criação de Formulário
       </Typography>
-      <Paper style={{ padding: '20px' }}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <TextField
-              label="Nome do Formulário"
-              value={formName}
-              onChange={(e) => setFormName(e.target.value)}
-              fullWidth
-            />
-          </Grid>
-          {formFields.map((field, index) => (
-            <Grid item xs={12} key={index}>
-              <TextField
-                label={`Campo ${index + 1}`}
-                value={field.label}
-                onChange={(e) => {
-                  const newFields = [...formFields];
-                  newFields[index].label = e.target.value;
-                  setFormFields(newFields);
-                }}
-                fullWidth
-              />
-            </Grid>
-          ))}
-          <Grid item xs={12}>
-            <Button 
-              variant="outlined" 
-              color="primary" 
-              onClick={handleAddField}
-              fullWidth
-            >
-              Adicionar Campo
-            </Button>
-          </Grid>
-          <Grid item xs={12}>
-            <Button 
-              variant="contained" 
-              color="primary" 
-              onClick={handleCreateForm}
-              fullWidth
-            >
-              Criar Formulário
-            </Button>
-          </Grid>
-        </Grid>
-        <Typography variant="h6" style={{ marginTop: '20px' }}>
-          Formulários Existentes
-        </Typography>
-        <List>
-          {forms.map(form => (
-            <ListItem key={form.id}>
-              <ListItemText primary={form.formName} secondary={`Campos: ${form.formFields.map(f => f.label).join(', ')}`} />
-            </ListItem>
-          ))}
-        </List>
-      </Paper>
+      <TextField
+        label="Título"
+        fullWidth
+        margin="normal"
+        value={formData.title}
+        onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+      />
+      <TextField
+        label="Descrição"
+        fullWidth
+        margin="normal"
+        value={formData.description}
+        onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+      />
+      {formData.fields.map((field, index) => (
+        <TextField
+          key={index}
+          label={`Campo ${index + 1}`}
+          name="name"
+          value={field.name}
+          onChange={(e) => handleFieldChange(index, e)}
+          fullWidth
+          margin="normal"
+        />
+      ))}
+      <Button variant="outlined" onClick={handleAddField}>
+        Adicionar Campo
+      </Button>
+      <Button variant="contained" color="primary" onClick={handleSubmit} style={{ marginLeft: '10px' }}>
+        Criar Formulário
+      </Button>
     </Container>
   );
 }

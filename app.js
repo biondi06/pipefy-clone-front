@@ -18,24 +18,24 @@ import './App.css';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#041b33',
+      main: '#041b33', // Cor principal do tema
     },
     secondary: {
-      main: '#f50057',
+      main: '#f50057', // Cor secundária para destaques
     },
     background: {
-      default: '#f4f6f8',
+      default: '#f4f6f8', // Cor de fundo
     },
   },
   typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', // Tipografia padrão
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: '8px',
-          textTransform: 'none',
+          borderRadius: '8px', // Botões com cantos arredondados
+          textTransform: 'none', // Remover o texto em caixa alta
         },
       },
     },
@@ -45,7 +45,7 @@ const theme = createTheme({
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
+      <CssBaseline /> {/* Define o CSS global */}
       <Router>
         <Routes>
           <Route
@@ -58,7 +58,7 @@ function App() {
               </TransitionGroup>
             }
           />
-          {/* Removendo Login e Register */}
+          {/* Rotas das outras páginas */}
           <Route
             path="/tasks"
             element={

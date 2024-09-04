@@ -1,11 +1,12 @@
-const express = require('express');
-const app = express();
+import React from 'react';
+import ReactDOM from 'react-dom/client';  // Certifique-se de que está importando de 'react-dom/client'
+import App from './App';  // Importa o componente principal
+import './index.css';  // Importa o CSS global
 
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Cria a raiz do React e renderiza o componente App
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
