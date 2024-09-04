@@ -1,68 +1,59 @@
+// src/pages/Automations.js
+
 import React, { useState } from 'react';
-import { Container, Typography, Button, TextField, MenuItem } from '@mui/material';
+import { Container, TextField, Button, List, ListItem, ListItemText, MenuItem } from '@mui/material';
 
-function Automations() {
-  const [automation, setAutomation] = useState({
-    trigger: '',
-    action: ''
-  });
+const Automations = () => {
+  const [newAutomation, setNewAutomation] = useState({ event: '', action: '' });
+  const [automations, setAutomations] = useState([]);
 
-  const triggers = ['Tarefa Concluída', 'Tarefa Atrasada', 'Nova Tarefa Criada'];
-  const actions = ['Enviar Notificação', 'Mover para Concluído', 'Criar Nova Tarefa'];
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setAutomation({
-      ...automation,
-      [name]: value
-    });
-  };
-
-  const handleSubmit = () => {
-    console.log('Automação Configurada:', automation);
-    // Aqui você integraria a API para salvar a automação
+  const handleAddAutomation = () => {
+    setAutomations([...automations, newAutomation]);
+    setNewAutomation({ event: '', action: '' });
   };
 
   return (
-    <Container maxWidth="sm" style={{ marginTop: '50px' }}>
-      <Typography variant="h4" gutterBottom>
-        Configuração de Automações
-      </Typography>
+    <Container maxWidth="md" style={{ marginTop: '50px' }}>
+      <h2>Configurar Automação</h2>
       <TextField
         select
-        label="Gatilho"
-        name="trigger"
-        value={automation.trigger}
-        onChange={handleInputChange}
+        label="Evento"
+        value={newAutomation.event}
+        onChange={(e) => setNewAutomation({ ...newAutomation, event: e.target.value })}
         fullWidth
         margin="normal"
       >
-        {triggers.map((trigger) => (
-          <MenuItem key={trigger} value={trigger}>
-            {trigger}
-          </MenuItem>
-        ))}
+        <MenuItem value="taskCreated">Tarefa Criada</MenuItem>
+        <MenuItem value="taskCompleted">Tarefa Concluída</MenuItem>
       </TextField>
+
       <TextField
         select
         label="Ação"
-        name="action"
-        value={automation.action}
-        onChange={handleInputChange}
+        value={newAutomation.action}
+        onChange={(e) => setNewAutomation({ ...newAutomation, action: e.target.value })}
         fullWidth
         margin="normal"
       >
-        {actions.map((action) => (
-          <MenuItem key={action} value={action}>
-            {action}
-          </MenuItem>
-        ))}
+        <MenuItem value="moveToInProgress">Mover para Em Progresso</MenuItem>
+        <MenuItem value="moveToDone">Mover para Concluído</MenuItem>
+        <MenuItem value="sendNotification">Enviar Notificação</MenuItem>
       </TextField>
-      <Button variant="contained" color="primary" onClick={handleSubmit}>
-        Configurar Automação
+
+      <Button variant="contained" color="primary" onClick={handleAddAutomation} fullWidth>
+        Adicionar Automação
       </Button>
+
+      <h3>Automatizações Configuradas</h3>
+      <List>
+        {automations.map((automation, index) => (
+          <ListItem key={index}>
+            <ListItemText primary={`Evento: ${automation.event}`} secondary={`Ação: ${automation.action}`} />
+          </ListItem>
+        ))}
+      </List>
     </Container>
   );
-}
+};
 
 export default Automations;

@@ -5,7 +5,7 @@ import HomeIcon from '@mui/icons-material/Home';  // Ícone de casa
 
 const NavBar = () => {
   return (
-    <AppBar position="fixed" color="primary"> {/* O rodapé superior fixo */}
+    <AppBar position="fixed" color="primary">
       <Toolbar>
         {/* Botão Home visível e sempre no canto esquerdo */}
         <IconButton

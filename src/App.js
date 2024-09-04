@@ -12,9 +12,13 @@ import Forms from './pages/Forms';
 import Report from './pages/Report';
 import TaskDetails from './pages/TaskDetails';
 import Teams from './pages/Teams';
-import KanbanBoard from './pages/KanbanBoard';  // Adicionando o Kanban
+import KanbanBoard from './pages/KanbanBoard';  // Importando o Kanban
 import NavBar from './components/NavBar';  // Importando o NavBar
-import './App.css'; // Importando o arquivo de estilos
+import NotificationSystem from './components/NotificationSystem';  // Importando o sistema de notificações
+import { ToastContainer } from 'react-toastify';  // Adicionando o ToastContainer para exibir as notificações
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import './App.css';
+import 'react-toastify/dist/ReactToastify.css';  // Importando o CSS das notificações
 
 const theme = createTheme({
   palette: {
@@ -49,21 +53,121 @@ function App() {
       <CssBaseline /> {/* Define o CSS global */}
       <Router>
         <NavBar />  {/* Adicionando o NavBar no topo */}
-        <div style={{ paddingTop: '80px' }}> {/* Adicionando padding para evitar sobreposição */}
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/tasks" element={<Tasks />} />
-            <Route path="/add-task" element={<AddTask />} />
-            <Route path="/automations" element={<Automations />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/edit-task/:id" element={<EditTask />} />
-            <Route path="/forms" element={<Forms />} />
-            <Route path="/report" element={<Report />} />
-            <Route path="/task-details/:id" element={<TaskDetails />} />
-            <Route path="/teams" element={<Teams />} />
-            <Route path="/kanban" element={<KanbanBoard />} />
-          </Routes>
-        </div>
+        <NotificationSystem />  {/* Sistema de Notificações */}
+        <ToastContainer />  {/* Componente para exibir notificações */}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <TransitionGroup>
+                <CSSTransition classNames="fade" timeout={300}>
+                  <Home />
+                </CSSTransition>
+              </TransitionGroup>
+            }
+          />
+          {/* Rotas das outras páginas */}
+          <Route
+            path="/tasks"
+            element={
+              <TransitionGroup>
+                <CSSTransition classNames="fade" timeout={300}>
+                  <Tasks />
+                </CSSTransition>
+              </TransitionGroup>
+            }
+          />
+          <Route
+            path="/add-task"
+            element={
+              <TransitionGroup>
+                <CSSTransition classNames="fade" timeout={300}>
+                  <AddTask />
+                </CSSTransition>
+              </TransitionGroup>
+            }
+          />
+          <Route
+            path="/automations"
+            element={
+              <TransitionGroup>
+                <CSSTransition classNames="fade" timeout={300}>
+                  <Automations />
+                </CSSTransition>
+              </TransitionGroup>
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <TransitionGroup>
+                <CSSTransition classNames="fade" timeout={300}>
+                  <Dashboard />
+                </CSSTransition>
+              </TransitionGroup>
+            }
+          />
+          <Route
+            path="/edit-task/:id"
+            element={
+              <TransitionGroup>
+                <CSSTransition classNames="fade" timeout={300}>
+                  <EditTask />
+                </CSSTransition>
+              </TransitionGroup>
+            }
+          />
+          <Route
+            path="/forms"
+            element={
+              <TransitionGroup>
+                <CSSTransition classNames="fade" timeout={300}>
+                  <Forms />
+                </CSSTransition>
+              </TransitionGroup>
+            }
+          />
+          <Route
+            path="/report"
+            element={
+              <TransitionGroup>
+                <CSSTransition classNames="fade" timeout={300}>
+                  <Report />
+                </CSSTransition>
+              </TransitionGroup>
+            }
+          />
+          <Route
+            path="/task-details/:id"
+            element={
+              <TransitionGroup>
+                <CSSTransition classNames="fade" timeout={300}>
+                  <TaskDetails />
+                </CSSTransition>
+              </TransitionGroup>
+            }
+          />
+          <Route
+            path="/teams"
+            element={
+              <TransitionGroup>
+                <CSSTransition classNames="fade" timeout={300}>
+                  <Teams />
+                </CSSTransition>
+              </TransitionGroup>
+            }
+          />
+          <Route
+            path="/kanban"
+            element={
+              <TransitionGroup>
+                <CSSTransition classNames="fade" timeout={300}>
+                  <KanbanBoard />
+                </CSSTransition>
+              </TransitionGroup>
+            }
+          />
+        </Routes>
       </Router>
     </ThemeProvider>
   );
