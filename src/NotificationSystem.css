@@ -1,0 +1,16 @@
+.Toastify__toast {
+    font-size: 16px;
+    border-radius: 8px;
+    background-color: #041b33;
+    color: white;
+  }
+  .Toastify__toast--success {
+    background-color: #4caf50;
+  }
+  .Toastify__toast--error {
+    background-color: #f44336;
+  }
+  .Toastify__toast--info {
+    background-color: #2196f3;
+  }
+  

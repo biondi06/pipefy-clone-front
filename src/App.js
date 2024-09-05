@@ -1,176 +1,75 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import Home from './pages/Home';
 import Tasks from './pages/Tasks';
 import AddTask from './pages/AddTask';
-import Automations from './pages/Automations';
 import Dashboard from './pages/Dashboard';
-import EditTask from './pages/EditTask';
-import Forms from './pages/Forms';
 import Report from './pages/Report';
-import TaskDetails from './pages/TaskDetails';
+import KanbanBoard from './pages/KanbanBoard';
+import Forms from './pages/Forms';
 import Teams from './pages/Teams';
-import KanbanBoard from './pages/KanbanBoard';  // Importando o Kanban
-import NavBar from './components/NavBar';  // Importando o NavBar
-import NotificationSystem from './components/NotificationSystem';  // Importando o sistema de notificações
-import { ToastContainer } from 'react-toastify';  // Adicionando o ToastContainer para exibir as notificações
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import Approvals from './pages/Approvals';
+import CalendarView from './pages/CalendarView';
+import NavBar from './components/NavBar';
+import NotificationSystem from './components/NotificationSystem';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
-import 'react-toastify/dist/ReactToastify.css';  // Importando o CSS das notificações
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#041b33', // Cor principal do tema
-    },
-    secondary: {
-      main: '#f50057', // Cor secundária para destaques
-    },
-    background: {
-      default: '#f4f6f8', // Cor de fundo
-    },
-  },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif', // Tipografia padrão
-  },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: '8px', // Botões com cantos arredondados
-          textTransform: 'none', // Remover o texto em caixa alta
-        },
+const App = () => {
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
+  const theme = createTheme({
+    palette: {
+      mode: darkMode ? 'dark' : 'light',
+      primary: {
+        main: '#041b33',
+      },
+      secondary: {
+        main: '#f50057',
+      },
+      background: {
+        default: darkMode ? '#121212' : '#f4f6f8',
       },
     },
-  },
-});
+    typography: {
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    },
+  });
 
-function App() {
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline /> {/* Define o CSS global */}
+      <CssBaseline />
       <Router>
-        <NavBar />  {/* Adicionando o NavBar no topo */}
-        <NotificationSystem />  {/* Sistema de Notificações */}
-        <ToastContainer />  {/* Componente para exibir notificações */}
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <Home />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          {/* Rotas das outras páginas */}
-          <Route
-            path="/tasks"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <Tasks />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/add-task"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <AddTask />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/automations"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <Automations />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/dashboard"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <Dashboard />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/edit-task/:id"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <EditTask />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/forms"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <Forms />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/report"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <Report />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/task-details/:id"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <TaskDetails />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/teams"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <Teams />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/kanban"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <KanbanBoard />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-        </Routes>
+        <NavBar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+        <NotificationSystem />
+        <ToastContainer />
+        <div style={{ flex: 1, paddingTop: '50px', paddingBottom: '80px' }}> {/* Adiciona o padding-top */}
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/tasks" element={<Tasks />} />
+            <Route path="/add-task" element={<AddTask />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/report" element={<Report />} />
+            <Route path="/kanban" element={<KanbanBoard />} />
+            <Route path="/forms" element={<Forms />} />
+            <Route path="/teams" element={<Teams />} />
+            <Route path="/approvals" element={<Approvals />} />
+            <Route path="/calendar" element={<CalendarView />} />
+          </Routes>
+        </div>
+        <footer style={{ backgroundColor: '#041b33', color: '#fff', textAlign: 'center', padding: '20px 0', position: 'fixed', bottom: 0, width: '100%' }}>
+          Todos os direitos reservados © 2024
+        </footer>
       </Router>
     </ThemeProvider>
   );
-}
+};
 
 export default App;

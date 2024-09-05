@@ -1,20 +1,19 @@
-import React, { useRef, useEffect } from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Chart, registerables } from 'chart.js';
+import React from 'react';
 import { Container, Typography } from '@mui/material';
+import { Bar } from 'react-chartjs-2';
+import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
-// Registrando os elementos do Chart.js
-Chart.register(...registerables);
+// Registrar os componentes necessários do Chart.js
+Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const Dashboard = () => {
-  const chartRef = useRef(null);
-
+  // Definindo os dados para o gráfico
   const data = {
     labels: ['Tarefas Concluídas', 'Tarefas Pendentes', 'Em Progresso'],
     datasets: [
       {
         label: 'Status das Tarefas',
-        data: [10, 5, 8],
+        data: [12, 5, 8], // Exemplo de dados
         backgroundColor: [
           'rgba(75, 192, 192, 0.6)',
           'rgba(255, 99, 132, 0.6)',
@@ -25,7 +24,18 @@ const Dashboard = () => {
     ],
   };
 
+  // Opções de configuração do gráfico
   const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Estatísticas das Tarefas',
+      },
+    },
     scales: {
       y: {
         beginAtZero: true,
@@ -33,19 +43,12 @@ const Dashboard = () => {
     },
   };
 
-  useEffect(() => {
-    // Destruir o gráfico anterior se ele já existir
-    if (chartRef.current) {
-      chartRef.current.destroy();
-    }
-  }, []);
-
   return (
     <Container maxWidth="lg" style={{ marginTop: '50px' }}>
       <Typography variant="h4" gutterBottom>
-        Estatísticas do Sistema
+        Painel de Estatísticas
       </Typography>
-      <Bar data={data} options={options} ref={chartRef} />
+      <Bar data={data} options={options} />
     </Container>
   );
 };

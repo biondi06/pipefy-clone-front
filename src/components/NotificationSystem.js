@@ -1,7 +1,6 @@
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Funções de notificação
 const notifySuccess = (message) => {
   toast.success(message, {
     position: toast.POSITION.TOP_RIGHT,
@@ -23,12 +22,11 @@ const notifyInfo = (message) => {
   });
 };
 
-export default function NotificationSystem() {
-  return (
-    <>
-      <ToastContainer /> {/* Adicione o ToastContainer ao JSX */}
-    </>
-  );
-}
+// Exemplo de uso
+const NotificationSystem = () => {
+  // Você pode adicionar notificações personalizadas aqui, ou ativá-las a partir de eventos no app.
+  return null;
+};
 
 export { notifySuccess, notifyError, notifyInfo };
+export default NotificationSystem;

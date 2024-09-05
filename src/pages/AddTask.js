@@ -1,62 +1,46 @@
 import React, { useState } from 'react';
-import { Container, TextField, Button, MenuItem, Typography, Paper, Grid } from '@mui/material';
-import axios from 'axios';
+import { Container, Typography, TextField, Button, Paper } from '@mui/material';
 
 const AddTask = () => {
   const [taskName, setTaskName] = useState('');
-  const [taskCategory, setTaskCategory] = useState('');
-  const [automations, setAutomations] = useState(false);
+  const [description, setDescription] = useState('');
 
-  const categories = ['Tarefas', 'Bug', 'Melhoria', 'Feature'];
-
-  const handleSubmit = () => {
-    const task = { name: taskName, category: taskCategory, automations };
-    axios.post('/api/tasks', task)
-      .then(response => {
-        console.log('Tarefa criada com sucesso:', response.data);
-        setTaskName('');
-        setTaskCategory('');
-        setAutomations(false);
-      })
-      .catch(error => console.error('Erro ao criar tarefa:', error));
+  const handleCreateTask = () => {
+    console.log('Tarefa criada:', taskName, description);
+    setTaskName('');
+    setDescription('');
   };
 
   return (
     <Container maxWidth="md" style={{ marginTop: '50px' }}>
-      <Typography variant="h4" gutterBottom>
-        Criar Nova Tarefa
-      </Typography>
-      <Paper style={{ padding: '20px' }}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <TextField
-              label="Nome da Tarefa"
-              value={taskName}
-              onChange={(e) => setTaskName(e.target.value)}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              select
-              label="Categoria"
-              value={taskCategory}
-              onChange={(e) => setTaskCategory(e.target.value)}
-              fullWidth
-            >
-              {categories.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={12}>
-            <Button variant="contained" color="primary" fullWidth onClick={handleSubmit}>
-              Criar Tarefa
-            </Button>
-          </Grid>
-        </Grid>
+      <Paper elevation={6} style={{ padding: '20px' }}>
+        <Typography variant="h4" gutterBottom>
+          Criar Tarefa
+        </Typography>
+        <TextField
+          label="Nome da Tarefa"
+          fullWidth
+          margin="normal"
+          variant="outlined"
+          value={taskName}
+          onChange={(e) => setTaskName(e.target.value)}
+        />
+        <TextField
+          label="Descrição"
+          fullWidth
+          margin="normal"
+          variant="outlined"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleCreateTask}
+          style={{ marginTop: '20px' }}
+        >
+          Criar
+        </Button>
       </Paper>
     </Container>
   );

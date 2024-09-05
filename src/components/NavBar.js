@@ -1,41 +1,47 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/Home';  // Ícone de casa
+import HomeIcon from '@mui/icons-material/Home';
+import { Brightness4, Brightness7 } from '@mui/icons-material';
 
-const NavBar = () => {
+const NavBar = ({ darkMode, toggleDarkMode }) => {
   return (
-    <AppBar position="fixed" color="primary">
-      <Toolbar>
-        {/* Botão Home visível e sempre no canto esquerdo */}
-        <IconButton
-          edge="start"
-          color="inherit"
-          component={Link}
-          to="/"
-          aria-label="home"
-        >
-          <HomeIcon /> {/* Ícone de Casa */}
-        </IconButton>
+    <AppBar position="fixed" color="primary" style={{ top: 0, bottom: 'auto', height: '64px' }}>
+      <Toolbar style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         
-        {/* Nome do Sistema */}
-        <Typography variant="h6" style={{ flexGrow: 1 }}>
+        {/* Ícone da Home no lado esquerdo */}
+        <IconButton edge="start" color="inherit" component={Link} to="/" aria-label="home">
+          <HomeIcon />
+        </IconButton>
+
+        {/* Centralizando o título no rodapé superior */}
+        <Typography variant="h6" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)' }}>
           Sistema - Thomaz Alves Advogados
         </Typography>
 
-        {/* Links para outras páginas */}
-        <Button color="inherit" component={Link} to="/dashboard">
-          Dashboard
-        </Button>
-        <Button color="inherit" component={Link} to="/tasks">
-          Tarefas
-        </Button>
-        <Button color="inherit" component={Link} to="/add-task">
-          Adicionar Tarefa
-        </Button>
-        <Button color="inherit" component={Link} to="/kanban">
-          Kanban
-        </Button>
+        {/* Ícone de alternância entre Modo Escuro e Modo Claro */}
+        <IconButton edge="end" color="inherit" onClick={toggleDarkMode}>
+          {darkMode ? <Brightness7 /> : <Brightness4 />}
+        </IconButton>
+
+        {/* Botões de Navegação */}
+        <div>
+          <Button color="inherit" component={Link} to="/dashboard">
+            Dashboard
+          </Button>
+          <Button color="inherit" component={Link} to="/tasks">
+            Tarefas
+          </Button>
+          <Button color="inherit" component={Link} to="/kanban">
+            Kanban
+          </Button>
+          <Button color="inherit" component={Link} to="/approvals">
+            Aprovações
+          </Button>
+          <Button color="inherit" component={Link} to="/calendar">
+            Calendário
+          </Button>
+        </div>
       </Toolbar>
     </AppBar>
   );

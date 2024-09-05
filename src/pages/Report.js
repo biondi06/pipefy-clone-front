@@ -1,41 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Container, Typography } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Container, Typography, CircularProgress } from '@mui/material';
 import axios from 'axios';
 
 const Report = () => {
   const [reportData, setReportData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('/api/tasks/stats')
+    // Busca os dados do relatório do backend
+    axios.get('/api/reports')
       .then(response => {
-        const { completed, pending, inProgress } = response.data;
-        setReportData({
-          labels: ['Concluídas', 'Pendentes', 'Em Progresso'],
-          datasets: [
-            {
-              label: 'Status das Tarefas',
-              data: [completed, pending, inProgress],
-              backgroundColor: [
-                'rgba(75, 192, 192, 0.6)',
-                'rgba(255, 99, 132, 0.6)',
-                'rgba(255, 205, 86, 0.6)',
-              ],
-            },
-          ],
-        });
+        setReportData(response.data);
+        setLoading(false);
       })
-      .catch(error => console.error('Erro ao buscar dados do relatório:', error));
+      .catch(error => {
+        console.error('Erro ao buscar os dados do relatório:', error);
+        setLoading(false);
+      });
   }, []);
 
-  if (!reportData) return <p>Carregando dados do relatório...</p>;
+  if (loading) {
+    return (
+      <Container maxWidth="md" style={{ textAlign: 'center', marginTop: '50px' }}>
+        <CircularProgress />
+        <Typography variant="h6">Carregando relatório...</Typography>
+      </Container>
+    );
+  }
+
+  if (!reportData) {
+    return (
+      <Container maxWidth="md" style={{ textAlign: 'center', marginTop: '50px' }}>
+        <Typography variant="h6">Nenhum dado de relatório disponível.</Typography>
+      </Container>
+    );
+  }
 
   return (
-    <Container maxWidth="lg" style={{ marginTop: '50px' }}>
-      <Typography variant="h4" gutterBottom>
-        Relatórios do Sistema
-      </Typography>
-      <Bar data={reportData} />
+    <Container maxWidth="md" style={{ marginTop: '50px' }}>
+      <Typography variant="h4" gutterBottom>Relatório de Tarefas</Typography>
+      <Typography variant="h6">Tarefas Concluídas: {reportData.completed}</Typography>
+      <Typography variant="h6">Tarefas Pendentes: {reportData.pending}</Typography>
+      <Typography variant="h6">Tarefas em Progresso: {reportData.inProgress}</Typography>
     </Container>
   );
 };
