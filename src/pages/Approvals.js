@@ -1,96 +1,78 @@
 // src/pages/Approvals.js
-
-import React, { useEffect, useState } from 'react';
-import { Container, Typography, Paper, Grid, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { Container, Paper, Typography, Grid, Button } from '@mui/material';
 
 const Approvals = () => {
-  const [approvals, setApprovals] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [newApproval, setNewApproval] = useState({ title: '', description: '' });
-
-  const fetchApprovals = async () => {
-    try {
-      const response = await axios.get('/api/approval');
-      setApprovals(response.data);
-    } catch (error) {
-      console.error('Erro ao buscar aprovações:', error);
+  const [approvals, setApprovals] = useState([
+    {
+      id: 1,
+      taskName: 'Tarefa 1',
+      status: 'Aguardando Aprovação',
+      approvers: [
+        { userId: 1, name: 'Usuário 1', approved: false },
+        { userId: 2, name: 'Usuário 2', approved: false }
+      ]
     }
-  };
+  ]);
 
-  const handleCreateApproval = async () => {
-    try {
-      const response = await axios.post('/api/approval', newApproval);
-      setApprovals([...approvals, response.data]);
-      setOpen(false);
-      setNewApproval({ title: '', description: '' });
-    } catch (error) {
-      console.error('Erro ao criar aprovação:', error);
-    }
-  };
+  const handleApprove = (approvalId, approverId) => {
+    const updatedApprovals = approvals.map((approval) => {
+      if (approval.id === approvalId) {
+        return {
+          ...approval,
+          approvers: approval.approvers.map((approver) => {
+            if (approver.userId === approverId) {
+              return { ...approver, approved: true };
+            }
+            return approver;
+          })
+        };
+      }
+      return approval;
+    });
 
-  useEffect(() => {
-    fetchApprovals();
-  }, []);
+    setApprovals(updatedApprovals);
+  };
 
   return (
     <Container maxWidth="md" style={{ marginTop: '50px' }}>
-      <Typography variant="h4" gutterBottom>
-        Sistema de Aprovações
-      </Typography>
+      <Paper elevation={6} style={{ padding: '20px' }}>
+        <Typography variant="h4" gutterBottom>
+          Aprovações
+        </Typography>
 
-      <Button variant="contained" color="primary" onClick={() => setOpen(true)}>
-        Criar Nova Aprovação
-      </Button>
+        <Grid container spacing={2}>
+          {approvals.map((approval) => (
+            <Grid item xs={12} key={approval.id}>
+              <Paper elevation={3} style={{ padding: '15px' }}>
+                <Typography variant="h6">{approval.taskName}</Typography>
+                <Typography>Status: {approval.status}</Typography>
 
-      <Grid container spacing={3} style={{ marginTop: '20px' }}>
-        {approvals.map((approval) => (
-          <Grid item xs={12} key={approval.id}>
-            <Paper elevation={6} style={{ padding: '20px' }}>
-              <Typography variant="h6">{approval.title}</Typography>
-              <Typography>{approval.description}</Typography>
-              <Typography>Status: {approval.status}</Typography>
-              <Button variant="contained" color="primary" style={{ marginTop: '10px' }}>
-                Aprovar
-              </Button>
-              <Button variant="contained" color="secondary" style={{ marginTop: '10px', marginLeft: '10px' }}>
-                Rejeitar
-              </Button>
-            </Paper>
-          </Grid>
-        ))}
-      </Grid>
-
-      <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Criar Nova Aprovação</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            label="Título"
-            type="text"
-            fullWidth
-            value={newApproval.title}
-            onChange={(e) => setNewApproval({ ...newApproval, title: e.target.value })}
-          />
-          <TextField
-            margin="dense"
-            label="Descrição"
-            type="text"
-            fullWidth
-            value={newApproval.description}
-            onChange={(e) => setNewApproval({ ...newApproval, description: e.target.value })}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)} color="secondary">
-            Cancelar
-          </Button>
-          <Button onClick={handleCreateApproval} color="primary">
-            Criar
-          </Button>
-        </DialogActions>
-      </Dialog>
+                <Typography variant="body2" style={{ marginTop: '10px' }}>
+                  Aprovadores:
+                </Typography>
+                {approval.approvers.map((approver) => (
+                  <div key={approver.userId} style={{ marginLeft: '15px' }}>
+                    <Typography variant="body2">
+                      {approver.name} - {approver.approved ? 'Aprovado' : 'Pendente'}
+                    </Typography>
+                    {!approver.approved && (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleApprove(approval.id, approver.userId)}
+                        style={{ marginTop: '10px' }}
+                      >
+                        Aprovar
+                      </Button>
+                    )}
+                  </div>
+                ))}
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+      </Paper>
     </Container>
   );
 };

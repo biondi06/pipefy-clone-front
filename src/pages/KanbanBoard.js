@@ -1,42 +1,22 @@
 // src/pages/KanbanBoard.js
-
 import React, { useState } from 'react';
-import { Container, Typography, Grid, Paper, Button, TextField } from '@mui/material';
+import { Container, Typography, Grid, Paper } from '@mui/material';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const initialTasks = [
-  { id: '1', content: 'Tarefa 1' },
-  { id: '2', content: 'Tarefa 2' },
-  { id: '3', content: 'Tarefa 3' }
+  { id: '1', content: 'Tarefa 1', lane: 'Prioridade Alta' },
+  { id: '2', content: 'Tarefa 2', lane: 'Prioridade Média' },
+  { id: '3', content: 'Tarefa 3', lane: 'Prioridade Baixa' }
 ];
 
 const KanbanBoard = () => {
-  // Remover 'setTasks', pois não está sendo usado.
-  const [tasks] = useState(initialTasks);
   const [columns, setColumns] = useState({
-    'to-do': { name: 'A Fazer', items: tasks },
+    'to-do': { name: 'A Fazer', items: initialTasks.filter(task => task.lane === 'Prioridade Alta') },
     'in-progress': { name: 'Em Progresso', items: [] },
     'done': { name: 'Concluído', items: [] }
   });
 
-  const [newTask, setNewTask] = useState('');  // Estado para nova tarefa
-
-  const handleAddTask = () => {
-    if (newTask.trim()) {
-      const newTaskObj = {
-        id: Date.now().toString(),
-        content: newTask
-      };
-      setColumns({
-        ...columns,
-        'to-do': {
-          ...columns['to-do'],
-          items: [...columns['to-do'].items, newTaskObj]
-        }
-      });
-      setNewTask(''); // Limpar o campo de entrada
-    }
-  };
+  const lanes = ['Prioridade Alta', 'Prioridade Média', 'Prioridade Baixa'];
 
   const onDragEnd = (result) => {
     const { source, destination } = result;
@@ -65,65 +45,52 @@ const KanbanBoard = () => {
   return (
     <Container maxWidth="lg" style={{ marginTop: '50px' }}>
       <Typography variant="h4" gutterBottom>
-        Kanban Board
+        Kanban Board com Swimlanes
       </Typography>
 
-      {/* Adicionar nova tarefa */}
-      <Grid container spacing={2} style={{ marginBottom: '20px' }}>
-        <Grid item xs={8}>
-          <TextField
-            label="Nova Tarefa"
-            variant="outlined"
-            fullWidth
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <Button variant="contained" color="primary" fullWidth onClick={handleAddTask}>
-            Adicionar Tarefa
-          </Button>
-        </Grid>
-      </Grid>
-
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Grid container spacing={4}>
-          {Object.entries(columns).map(([id, column]) => (
-            <Grid item xs={4} key={id}>
-              <Typography variant="h6">{column.name}</Typography>
-              <Droppable droppableId={id}>
-                {(provided) => (
-                  <Paper
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    style={{ padding: '20px', minHeight: '300px' }}
-                  >
-                    {column.items.map((task, index) => (
-                      <Draggable key={task.id} draggableId={task.id} index={index}>
-                        {(provided) => (
-                          <Paper
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={{
-                              padding: '15px',
-                              marginBottom: '10px',
-                              ...provided.draggableProps.style
-                            }}
-                          >
-                            {task.content}
-                          </Paper>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </Paper>
-                )}
-              </Droppable>
+      {lanes.map((lane) => (
+        <div key={lane}>
+          <Typography variant="h6" style={{ marginTop: '20px' }}>{lane}</Typography>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Grid container spacing={4}>
+              {Object.entries(columns).map(([id, column]) => (
+                <Grid item xs={4} key={id}>
+                  <Typography variant="h6">{column.name}</Typography>
+                  <Droppable droppableId={id}>
+                    {(provided) => (
+                      <Paper
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        style={{ padding: '20px', minHeight: '300px' }}
+                      >
+                        {column.items.filter(item => item.lane === lane).map((task, index) => (
+                          <Draggable key={task.id} draggableId={task.id} index={index}>
+                            {(provided) => (
+                              <Paper
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                style={{
+                                  padding: '15px',
+                                  marginBottom: '10px',
+                                  ...provided.draggableProps.style
+                                }}
+                              >
+                                {task.content}
+                              </Paper>
+                            )}
+                          </Draggable>
+                        ))}
+                        {provided.placeholder}
+                      </Paper>
+                    )}
+                  </Droppable>
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
-      </DragDropContext>
+          </DragDropContext>
+        </div>
+      ))}
     </Container>
   );
 };

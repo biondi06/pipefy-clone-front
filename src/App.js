@@ -12,6 +12,7 @@ import Forms from './pages/Forms';
 import Teams from './pages/Teams';
 import Approvals from './pages/Approvals';
 import CalendarView from './pages/CalendarView';
+import Automations from './pages/Automations';  
 import NavBar from './components/NavBar';
 import NotificationSystem from './components/NotificationSystem';
 import { ToastContainer } from 'react-toastify';
@@ -49,8 +50,8 @@ const App = () => {
       <Router>
         <NavBar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
         <NotificationSystem />
-        <ToastContainer />
-        <div style={{ flex: 1, paddingTop: '60px', paddingBottom: '80px' }}> {/* Adiciona o padding-top */}
+        <ToastContainer /> {/* O ToastContainer é necessário para exibir as notificações */}
+        <div style={{ flex: 1, paddingTop: '50px', paddingBottom: '80px' }}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/tasks" element={<Tasks />} />
@@ -62,6 +63,7 @@ const App = () => {
             <Route path="/teams" element={<Teams />} />
             <Route path="/approvals" element={<Approvals />} />
             <Route path="/calendar" element={<CalendarView />} />
+            <Route path="/automations" element={<Automations />} />
           </Routes>
         </div>
         <footer style={{ backgroundColor: '#041b33', color: '#fff', textAlign: 'center', padding: '20px 0', position: 'fixed', bottom: 0, width: '100%' }}>

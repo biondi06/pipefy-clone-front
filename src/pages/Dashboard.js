@@ -1,54 +1,52 @@
+// src/pages/Dashboard.js
 import React from 'react';
-import { Container, Typography } from '@mui/material';
-import { Bar } from 'react-chartjs-2';
-import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { Container, Typography, Grid, Paper } from '@mui/material';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
-// Registrar os componentes necessários do Chart.js
-Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+const data = [
+  { name: 'Tarefas Concluídas', value: 24 },
+  { name: 'Em Progresso', value: 12 },
+  { name: 'Pendentes', value: 5 }
+];
 
 const Dashboard = () => {
-  // Definindo os dados para o gráfico
-  const data = {
-    labels: ['Tarefas Concluídas', 'Tarefas Pendentes', 'Em Progresso'],
-    datasets: [
-      {
-        label: 'Status das Tarefas',
-        data: [12, 5, 8], // Exemplo de dados
-        backgroundColor: [
-          'rgba(75, 192, 192, 0.6)',
-          'rgba(255, 99, 132, 0.6)',
-          'rgba(255, 205, 86, 0.6)',
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
-
-  // Opções de configuração do gráfico
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Estatísticas das Tarefas',
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  };
-
   return (
     <Container maxWidth="lg" style={{ marginTop: '50px' }}>
       <Typography variant="h4" gutterBottom>
-        Painel de Estatísticas
+        Dashboard
       </Typography>
-      <Bar data={data} options={options} />
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}>
+          <Paper elevation={6} style={{ padding: '20px' }}>
+            <Typography variant="h6">Progresso de Tarefas</Typography>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={data}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="value" fill="#8884d8" />
+              </BarChart>
+            </ResponsiveContainer>
+          </Paper>
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <Paper elevation={6} style={{ padding: '20px' }}>
+            <Typography variant="h6">Distribuição de Tarefas</Typography>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie data={data} dataKey="value" outerRadius={100}>
+                  {data.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={['#8884d8', '#82ca9d', '#ffc658'][index]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </Paper>
+        </Grid>
+      </Grid>
     </Container>
   );
 };
