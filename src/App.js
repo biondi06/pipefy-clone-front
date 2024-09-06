@@ -50,7 +50,7 @@ const App = () => {
         <NavBar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
         <NotificationSystem />
         <ToastContainer />
-        <div style={{ flex: 1, paddingTop: '50px', paddingBottom: '80px' }}> {/* Adiciona o padding-top */}
+        <div style={{ flex: 1, paddingTop: '60px', paddingBottom: '80px' }}> {/* Adiciona o padding-top */}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/tasks" element={<Tasks />} />
