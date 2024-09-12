@@ -12,6 +12,8 @@ import Forms from './pages/Forms';
 import Report from './pages/Report';
 import TaskDetails from './pages/TaskDetails';
 import Teams from './pages/Teams';
+import Header from './components/Header';  // Header adicionado
+import Footer from './components/Footer';  // Footer adicionado
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './App.css';
 
@@ -47,109 +49,115 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline /> {/* Define o CSS global */}
       <Router>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <Home />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          {/* Rotas das outras páginas */}
-          <Route
-            path="/tasks"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <Tasks />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/add-task"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <AddTask />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/automations"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <Automations />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/dashboard"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <Dashboard />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/edit-task/:id"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <EditTask />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/forms"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <Forms />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/report"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <Report />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/task-details/:id"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <TaskDetails />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-          <Route
-            path="/teams"
-            element={
-              <TransitionGroup>
-                <CSSTransition classNames="fade" timeout={300}>
-                  <Teams />
-                </CSSTransition>
-              </TransitionGroup>
-            }
-          />
-        </Routes>
+        {/* Header fixo no topo */}
+        <Header />
+        <div style={{ paddingTop: '60px', paddingBottom: '80px' }}>  {/* Ajuste de padding */}
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <TransitionGroup>
+                  <CSSTransition classNames="fade" timeout={300}>
+                    <Home />
+                  </CSSTransition>
+                </TransitionGroup>
+              }
+            />
+            {/* Rotas das outras páginas */}
+            <Route
+              path="/tasks"
+              element={
+                <TransitionGroup>
+                  <CSSTransition classNames="fade" timeout={300}>
+                    <Tasks />
+                  </CSSTransition>
+                </TransitionGroup>
+              }
+            />
+            <Route
+              path="/add-task"
+              element={
+                <TransitionGroup>
+                  <CSSTransition classNames="fade" timeout={300}>
+                    <AddTask />
+                  </CSSTransition>
+                </TransitionGroup>
+              }
+            />
+            <Route
+              path="/automations"
+              element={
+                <TransitionGroup>
+                  <CSSTransition classNames="fade" timeout={300}>
+                    <Automations />
+                  </CSSTransition>
+                </TransitionGroup>
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <TransitionGroup>
+                  <CSSTransition classNames="fade" timeout={300}>
+                    <Dashboard />
+                  </CSSTransition>
+                </TransitionGroup>
+              }
+            />
+            <Route
+              path="/edit-task/:id"
+              element={
+                <TransitionGroup>
+                  <CSSTransition classNames="fade" timeout={300}>
+                    <EditTask />
+                  </CSSTransition>
+                </TransitionGroup>
+              }
+            />
+            <Route
+              path="/forms"
+              element={
+                <TransitionGroup>
+                  <CSSTransition classNames="fade" timeout={300}>
+                    <Forms />
+                  </CSSTransition>
+                </TransitionGroup>
+              }
+            />
+            <Route
+              path="/report"
+              element={
+                <TransitionGroup>
+                  <CSSTransition classNames="fade" timeout={300}>
+                    <Report />
+                  </CSSTransition>
+                </TransitionGroup>
+              }
+            />
+            <Route
+              path="/task-details/:id"
+              element={
+                <TransitionGroup>
+                  <CSSTransition classNames="fade" timeout={300}>
+                    <TaskDetails />
+                  </CSSTransition>
+                </TransitionGroup>
+              }
+            />
+            <Route
+              path="/teams"
+              element={
+                <TransitionGroup>
+                  <CSSTransition classNames="fade" timeout={300}>
+                    <Teams />
+                  </CSSTransition>
+                </TransitionGroup>
+              }
+            />
+          </Routes>
+        </div>
+        {/* Footer fixo no rodapé */}
+        <Footer />
       </Router>
     </ThemeProvider>
   );

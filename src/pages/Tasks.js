@@ -1,11 +1,10 @@
-// src/pages/Tasks.js
-
 import React, { useState, useEffect } from 'react';
 import { Container, Paper, Typography, Grid, Button, TextField, IconButton } from '@mui/material';
 import { toast } from 'react-toastify';
 import { DatePicker } from '@mui/lab';
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import DeleteIcon from '@mui/icons-material/Delete';
+import './Tasks.css';
 
 const Tasks = () => {
   const [tasks, setTasks] = useState([
@@ -62,7 +61,7 @@ const Tasks = () => {
     }
   }, [tasks, autoUpdateEnabled]);
 
-  // Função para solicitar aprovação (Automação)
+  // Função para solicitar aprovação
   const handleApprovalRequest = (taskId) => {
     const updatedTasks = tasks.map((task) => {
       if (task.id === taskId) {
@@ -71,7 +70,7 @@ const Tasks = () => {
       return task;
     });
     setTasks(updatedTasks);
-    toast.info('Aprovação solicitada automaticamente.');
+    toast.info('Aprovação solicitada.');
   };
 
   // Função para alterar o status da tarefa manualmente
@@ -220,7 +219,7 @@ const Tasks = () => {
         <Grid container spacing={2} style={{ marginTop: '20px' }}>
           {filteredTasks.map((task) => (
             <Grid item xs={12} key={task.id}>
-              <Paper elevation={3} style={{ padding: '15px' }}>
+              <Paper className={`task-card ${task.status.toLowerCase().replace(' ', '-')}`} elevation={3} style={{ padding: '15px' }}>
                 <Typography variant="h6">{task.name}</Typography>
                 <Typography>SLA: {task.sla}</Typography>
                 <Typography>Status: {task.status}</Typography>

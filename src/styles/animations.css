@@ -1,0 +1,53 @@
+/* src/styles/animations.css */
+
+/* Animação fade-in e fade-out para mudanças de página */
+.fade-enter {
+    opacity: 0;
+  }
+  .fade-enter-active {
+    opacity: 1;
+    transition: opacity 300ms ease-in;
+  }
+  .fade-exit {
+    opacity: 1;
+  }
+  .fade-exit-active {
+    opacity: 0;
+    transition: opacity 300ms ease-out;
+  }
+  
+  /* Estilização e animação dos botões */
+  button {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    padding: 10px 15px;
+    border-radius: 8px;
+    text-transform: none;
+  }
+  
+  button:hover {
+    background-color: #041b33;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+  
+  /* Animação dos cards */
+  .card {
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+  }
+  
+  .card:hover {
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+  }
+  
+  /* Ajustes responsivos */
+  @media (max-width: 768px) {
+    button {
+      width: 100%;
+    }
+  
+    .container {
+      padding: 10px;
+    }
+  }
+  

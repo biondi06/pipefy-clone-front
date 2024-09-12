@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Container, Paper, Typography, Grid, Button, TextField, Select, MenuItem } from '@mui/material';
 import { toast } from 'react-toastify';
+import { Parser } from 'json2csv';  // Biblioteca para exportação CSV
 
 const Report = () => {
   const [filters, setFilters] = useState({
@@ -35,6 +36,25 @@ const Report = () => {
       setReportData([]);
       toast.error('Nenhum dado encontrado para os filtros aplicados.');
     }
+  };
+
+  // Função para exportar o relatório para CSV
+  const handleExportCSV = () => {
+    if (reportData.length === 0) {
+      toast.error('Nenhum dado disponível para exportar!');
+      return;
+    }
+
+    const csvFields = ['task', 'status', 'team', 'date'];
+    const json2csvParser = new Parser({ csvFields });
+    const csv = json2csvParser.parse(reportData);
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'relatorio.csv';
+    link.click();
+    toast.success('Relatório exportado como CSV!');
   };
 
   return (
@@ -115,6 +135,16 @@ const Report = () => {
                 </Grid>
               ))}
             </Grid>
+
+            <Button
+              variant="outlined"
+              color="primary"
+              fullWidth
+              onClick={handleExportCSV}
+              style={{ marginTop: '20px' }}
+            >
+              Exportar para CSV
+            </Button>
           </div>
         )}
 
