@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +7,21 @@
   <meta name="keywords" content="advocacia, gerenciamento de tarefas, automação, software jurídico">
   <meta name="author" content="Thomaz Alves Advogados">
   <title>Sistema - Thomaz Alves Advogados</title>
+
+  <!-- Adicione o CSS diretamente ou aponte para o caminho correto do arquivo de estilos -->
+  <link rel="stylesheet" href="%PUBLIC_URL%/index.css" />
+
+  <!-- Meta tag adicional para melhor renderização em dispositivos móveis -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
 </head>
 <body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <noscript>É necessário habilitar o JavaScript para executar este aplicativo.</noscript>
+  
+  <!-- O React usará esta div para injetar o conteúdo da aplicação -->
   <div id="root"></div>
+  
+  <!-- Carregue os scripts da aplicação -->
+  <script src="%PUBLIC_URL%/bundle.js"></script>
 </body>
 </html>

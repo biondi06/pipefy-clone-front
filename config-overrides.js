@@ -1,20 +1,18 @@
 const webpack = require('webpack');
 
 module.exports = function override(config) {
-  // Adicionando polyfills para Webpack 5
   config.resolve.fallback = {
     ...config.resolve.fallback,
-    buffer: require.resolve('buffer/'),
     stream: require.resolve('stream-browserify'),
-    os: require.resolve('os-browserify/browser')
+    os: require.resolve('os-browserify/browser'),
   };
 
-  config.plugins = (config.plugins || []).concat([
+  config.plugins = [
+    ...config.plugins,
     new webpack.ProvidePlugin({
-      Buffer: ['buffer', 'Buffer'],
-      process: 'process/browser'
-    })
-  ]);
+      process: 'process/browser',
+    }),
+  ];
 
   return config;
 };

@@ -1,12 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';  // Certifique-se de que está importando de 'react-dom/client'
-import App from './App';  // Importa o componente principal
-import './index.css';  // Importa o CSS global
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
-// Cria a raiz do React e renderiza o componente App
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
 );
+
+// Log para verificar se o componente App está sendo carregado
+console.log('App Component Rendered');
+
+reportWebVitals();
